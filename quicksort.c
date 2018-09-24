@@ -14,28 +14,34 @@
 #include "util.h"
 
 // TODO: implement
-/* int quicksort(UINT* A, int lo, int hi) {
+void swap(UINT* A, int in, int fin){
+	int temp = A[in];
+	A[in] = A[fin];
+	A[fin] = temp; 
+}
+
+int partition(UINT* A, int lo, int hi) {
+	int pivot = A[hi];
+	int i = lo;
+	for (int j = lo; j < hi; j++) {
+		if (A[j] < pivot) {
+			swap(A, i, j);
+			i = i + 1;
+		}
+	}
+	swap(A, i, hi);
+	return i;
+}
+
+int quicksort(UINT* A, int lo, int hi) {
     if (lo < hi) {
-	p = partition(A, lo, hi)
-	quicksort(A, lo, p - 1 )
-	quicksort(A, p + 1, hi)
+	int p = partition(A, lo, hi);
+	quicksort(A, lo, p - 1 );
+	quicksort(A, p + 1, hi);
     }
     return 0;
 }
 
-int partition(UNIT* A, int lo, int hi) {
-	int pivot = A[hi]
-	int i = lo
-	for (j = lo; j < hi; j++) {
-		if (A[j] < pivot) {
-			swap A[i] with A[j]
-			i = i + 1
-		}
-	}
-	swap A[i] with A[hi]
-	return i
-}
-*/
 // TODO: implement
 int parallel_quicksort(UINT* A, int lo, int hi) {
     return 0;
