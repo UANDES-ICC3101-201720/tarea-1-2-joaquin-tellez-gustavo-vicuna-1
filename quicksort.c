@@ -149,7 +149,7 @@ int main(int argc, char** argv) {
         }
 
         UINT readvalues = 0;
-        size_t numvalues = pow(10, 3);
+        size_t numvalues = pow(10, atoi(Tvalue));
         size_t readbytes = 0;
 
         UINT *readbuf = malloc(sizeof(UINT) * numvalues);
@@ -161,10 +161,16 @@ int main(int argc, char** argv) {
         }
 
         /* Print out the values obtained from datagen */
+        printf("\nData disordered:\n\n");
         for (UINT *pv = readbuf; pv < readbuf + numvalues; pv++) {
             printf("%u\n", *pv);
         }
 
+        quicksort(readbuf,0,numvalues);
+        printf("\nSerial Quicksort:\n\n");
+        for (UINT *pv = readbuf; pv < readbuf + numvalues; pv++) {
+            printf("%u\n", *pv);
+        }
         free(readbuf);
     }
 
