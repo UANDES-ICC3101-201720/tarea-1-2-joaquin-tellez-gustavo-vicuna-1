@@ -7,6 +7,8 @@
 #include <stdbool.h>
 #include <string.h>
 #include <time.h>
+#include <ctype.h>
+#include <pthread.h>
 #include "types.h"
 #include "const.h"
 #include "util.h"
@@ -29,6 +31,38 @@ int main(int argc, char** argv) {
            sysconf(_SC_NPROCESSORS_ONLN));
 
     /* TODO: parse arguments with getopt */
+    char* Tvalue;
+	int Evalue = 0;
+	int index;
+	int c;
+
+	opterr = 0;
+
+
+	while ((c = getopt (argc, argv, "E:T:")) != -1)
+		switch (c){
+			case 'E':
+				Evalue = atoi(optarg);
+				break;
+			case 'T':
+				Tvalue = optarg;
+				break;
+			case '?':
+				if (optopt == 'T' || optopt == 'E')
+				  fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+				else if (isprint(optopt))
+				  fprintf (stderr, "Unknown option `-%c'.\n", optopt);
+				else
+				  fprintf (stderr,
+					   "Unknown option character `\\x%x'.\n",
+					   optopt);
+				return 1;
+			default:
+				abort ();
+		}
+	for (index = optind; index < argc; index++)
+		printf ("Non-option argument %s\n", argv[index]);
+    printf("\n%i , %s\n",Evalue,Tvalue);
 
     /* TODO: start datagen here as a child process. */
 
