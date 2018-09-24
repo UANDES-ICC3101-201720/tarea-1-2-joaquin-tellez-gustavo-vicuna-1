@@ -66,6 +66,16 @@ int main(int argc, char** argv) {
 
     /* TODO: start datagen here as a child process. */
 
+    pid_t pid;
+	pid = fork();
+	if (pid == -1){   
+		fprintf(stderr, "Error en fork\n");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0){
+		execlp("./datagen","./datagen",NULL);
+	}
+
     /* Create the domain socket to talk to datagen. */
     struct sockaddr_un addr;
     int fd;
