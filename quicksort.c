@@ -86,7 +86,7 @@ int main(int argc, char** argv) {
 		}
 	for (index = optind; index < argc; index++)
 		printf ("Non-option argument %s\n", argv[index]);
-    printf("\n%i , %s\n",Evalue,Tvalue);
+    printf("\n[quicksort] E:%i , %s\n",Evalue,Tvalue);
 
     /* TODO: start datagen here as a child process. */
 
@@ -161,16 +161,19 @@ int main(int argc, char** argv) {
         }
 
         /* Print out the values obtained from datagen */
-        printf("\nData disordered:\n\n");
+        printf("\nE%d:",i+1);
         for (UINT *pv = readbuf; pv < readbuf + numvalues; pv++) {
-            printf("%u\n", *pv);
+            printf("%u,", *pv);
         }
 
         quicksort(readbuf,0,numvalues);
-        printf("\nSerial Quicksort:\n\n");
+        
+        printf("\nS%d:",i+1);
         for (UINT *pv = readbuf; pv < readbuf + numvalues; pv++) {
-            printf("%u\n", *pv);
+            printf("%u,", *pv);
         }
+        printf("\n");
+
         free(readbuf);
     }
 
