@@ -14,7 +14,7 @@
 #include "util.h"
 
 // TODO: implement
-int quicksort(UINT* A, int lo, int hi) {
+/* int quicksort(UINT* A, int lo, int hi) {
     if (lo < hi) {
 	p = partition(A, lo, hi)
 	quicksort(A, lo, p - 1 )
@@ -35,7 +35,7 @@ int partition(UNIT* A, int lo, int hi) {
 	swap A[i] with A[hi]
 	return i
 }
-
+*/
 // TODO: implement
 int parallel_quicksort(UINT* A, int lo, int hi) {
     return 0;
@@ -114,9 +114,12 @@ int main(int argc, char** argv) {
     }
 
     /* DEMO: request two sets of unsorted random numbers to datagen */
-    for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < Evalue; i++) {
         /* T value 3 hardcoded just for testing. */
-        char *begin = "BEGIN U 3";
+        char begin[10];
+        strcpy(begin,"BEGIN U");
+	    strcat(begin, Tvalue);
+
         int rc = strlen(begin);
 
         /* Request the random number stream to datagen */
