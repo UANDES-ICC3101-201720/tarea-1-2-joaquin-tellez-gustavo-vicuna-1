@@ -163,14 +163,16 @@ int main(int argc, char** argv) {
         /* Print out the values obtained from datagen */
         printf("\nE%d:",i+1);
         for (UINT *pv = readbuf; pv < readbuf + numvalues; pv++) {
-            printf("%u,", *pv);
+            if (pv==readbuf+numvalues-1) printf("%u.\n",*pv);
+            else printf("%u,", *pv);
         }
 
-        quicksort(readbuf,0,numvalues);
+        quicksort(readbuf,0,numvalues-1);
         
         printf("\nS%d:",i+1);
         for (UINT *pv = readbuf; pv < readbuf + numvalues; pv++) {
-            printf("%u,", *pv);
+            if (pv==readbuf+numvalues-1) printf("%u.\n",*pv);
+            else printf("%u,", *pv);
         }
         printf("\n");
 
