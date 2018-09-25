@@ -15,6 +15,14 @@
 
 pthread_t pt[6];
 
+struct final
+{
+    UINT* Z;
+    int lo;
+    int hi;
+    int depth;
+};
+
 // TODO: implement
 void swap(UINT* A, int in, int fin){
 	int temp = A[in];
@@ -44,55 +52,26 @@ int quicksort(UINT* A, int lo, int hi) {
     return 0;
 }
 
+void parallel_quicksort(UINT* A, int lo, int hi);
+
 void *first(void * fv){
-	int pivot,rc,lo,hi;
-	UINT i = (UINT)fv;
-	lo = 0;
-	hi = sizeof(A);
-	void *e_s;
-	printf("%d THREAD CREADO CON I: %d\n", i);
-	if (lo >= hi) return NULL;
-	else{
-		pivot = partition(A, lo, hi);
-		if (((pivot - lo) <= sizeof(A)/6) || (i == 5)){
-			quicksort(A, lo, pivot);
-		}
-		else if (i < 6){
-			++i;
-			if(rc == pthread_create(&pt[i], NULL, *first, (void *)i)){
-				printf("%d THREAD Failed \n", i);
-			}
-			pthread_join(pt[i], &e_s);
-			printf("&d THREAD EXITED \n", i);
-		}
-		if (((hi - pivot) <= sizeof(A)/6) || (i == 5)){
-			quicksort(A, pivot, hi);
-		}
-		else if (i < 6){
-			++i;
-			if(rc == pthread_create(&pt[i], NULL, *first, (void *)i)){
-				printf("%d THREAD Failed \n", i);
-			}
-			pthread_join(pt[i], &e_s);
-			printf("&d THREAD EXITED \n", i);
-		}
-	}
-return NULL; 
+	struct final *fs = fv;
+    	parallel_quicksort(fs->Z, fs->lo, fs->hi);
+    	return NULL;
 }
 
 // TODO: implement
-int parallel_quicksort(UINT* A, int lo, int hi) {
-	int i, rc, l;
-	void *e_s;
-	pthread_mutex_init(&lok1, NULL);
-	pthread_cond_init(%cond1, NULL);
-	if(rc = pthread_create(&pt[i], NULL, *first, (void *)i)){
-		printf("%d THREAD Failed \n", i);
-	}
-	pthread_join(pt[i], &e_s);		
-	pthread_mutex_destroy(&lok1);
-	pthread_cond_destroy(&cond1);
-	return 0;
+void parallel_quicksort(UINT* A, int lo, int hi) {
+	int pivot = partition(A, lo, hi);
+	struct final *fi = malloc(sizeof(struct final)+(hi)*sizeof(UINT*));
+	fi->depth = 0;
+	fi->lo = lo;
+	fi->hi = hi;
+	memcpy(fi->Z, A, (hi)*sizeof(UINT*));
+	pthread_t first_thread;
+	pthread_create(&first_thread, NULL, first, fi);
+	parallel_quicksort(A, pivot+1, hi);
+	pthread_join(first_thread, NULL);
 }
 
 int main(int argc, char** argv) {
@@ -216,6 +195,17 @@ int main(int argc, char** argv) {
         }
 
         quicksort(readbuf,0,numvalues-1);
+        
+        printf("\nS%d:",i+1);
+        for (UINT *pv = readbuf; pv < readbuf + numvalues; pv++) {
+            if (pv==readbuf+numvalues-1) printf("%u.\n",*pv);
+            else printf("%u,", *pv);
+        }
+        printf("\n");
+
+        //free(readbuf);
+
+	parallel_quicksort(readbuf,0,numvalues-1);
         
         printf("\nS%d:",i+1);
         for (UINT *pv = readbuf; pv < readbuf + numvalues; pv++) {
