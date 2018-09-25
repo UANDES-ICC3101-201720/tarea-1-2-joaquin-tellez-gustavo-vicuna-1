@@ -20,8 +20,9 @@ struct final
     UINT* Z;
     int lo;
     int hi;
-    int depth;
 };
+
+int dep = 1;
 
 // TODO: implement
 void swap(UINT* A, int in, int fin){
@@ -63,15 +64,25 @@ void *first(void * fv){
 // TODO: implement
 void parallel_quicksort(UINT* A, int lo, int hi) {
 	int pivot = partition(A, lo, hi);
-	struct final *fi = malloc(sizeof(struct final)+(hi)*sizeof(UINT*));
-	fi->depth = 0;
-	fi->lo = lo;
-	fi->hi = hi;
-	memcpy(fi->Z, A, (hi)*sizeof(UINT*));
-	pthread_t first_thread;
-	pthread_create(&first_thread, NULL, first, fi);
-	parallel_quicksort(A, pivot+1, hi);
-	pthread_join(first_thread, NULL);
+	
+	if (dep-- > 0){
+		/*struct final *fi = malloc(sizeof(struct final)+(h)*sizeof(UINT*));
+		fi->depth = dep;
+		fi->lo = l;
+		fi->hi = h;
+		printf("\n\nhola\n\n");
+		memcpy(fi->Z, A, (h)*sizeof(UINT*));*/
+		struct final fi = {A, lo, hi};
+		printf("\n\nhola\n\n");
+		pthread_t first_thread;
+		pthread_create(&first_thread, NULL, first, &fi);
+		//parallel_quicksort(A, pivot+1, h);
+		pthread_join(first_thread, NULL);
+	}
+	else{
+		quicksort(A, lo, pivot-1);
+		quicksort(A, pivot+1, hi);
+	}
 }
 
 int main(int argc, char** argv) {
@@ -113,6 +124,7 @@ int main(int argc, char** argv) {
 		}
 	for (index = optind; index < argc; index++)
 		printf ("Non-option argument %s\n", argv[index]);
+    printf("\n[quicksort] E:%i , %s\n",Evalue,Tvalue);
 
     /* TODO: start datagen here as a child process. */
 
@@ -193,9 +205,7 @@ int main(int argc, char** argv) {
             else printf("%u,", *pv);
         }
 
-        //free(readbuf);
-
-	    parallel_quicksort(readbuf,0,numvalues-1);
+        parallel_quicksort(readbuf,0,numvalues-1);
         
         printf("\nS%d:",i+1);
         for (UINT *pv = readbuf; pv < readbuf + numvalues; pv++) {
