@@ -13,6 +13,8 @@
 #include "const.h"
 #include "util.h"
 
+pthread_t pt[6];
+
 // TODO: implement
 void swap(UINT* A, int in, int fin){
 	int temp = A[in];
@@ -42,9 +44,54 @@ int quicksort(UINT* A, int lo, int hi) {
     return 0;
 }
 
+void *first(void * fv){
+	int i,pivot,rc,lo,hi;
+	i = (int)fv;
+	lo = 0;
+	hi = sizeof(A);
+	void *e_s;
+	printf("%d THREAD CREADO CON I: %d\n", i);
+	if (inicio >= fin) return NULL;
+	else{
+		pivot = partition(A, inicio, fin);
+		if ((pivot - lo) <= sizeof(A)/6) || (i == 5)){
+			quicksort(A, lo, pivot);
+		}
+		else if (i < 6){
+			++i;
+			if(rc = pthread_create(&pt[i], NULL, *first, (void *)i)){
+				printf("%d THREAD Failed \n", i);
+			}
+			pthread_(pt[i], &e_s);
+			printf("&d THREAD EXITED \n", i);
+		}
+		if (((hi - pivot) <= sizeof(A)/6) || (i == 5){
+			quicksort(A, pivot, hi);
+		}
+		else if (i < 6){
+			++i;
+			if(rc = pthread_create(&pt[i], NULL, *first, (void *)i)){
+				printf("%d THREAD Failed \n", i);
+			}
+			pthread_(pt[i], &e_s);
+			printf("&d THREAD EXITED \n", i);
+		}
+	} 
+}
+
 // TODO: implement
 int parallel_quicksort(UINT* A, int lo, int hi) {
-    return 0;
+	int i, rc, l;
+	void *e_s;
+	pthread_mutex_init(&lok1, NULL);
+	pthread_cond_init(%cond1, NULL);
+	if(rc = pthread_create(&pt[i], NULL, *first, (void *)i)){
+		printf("%d THREAD Failed \n", i);
+	}
+	pthread_join(pt[i], &e_s);		
+	pthread_mutex_destroy(&lok1);
+	pthread_cond_destroy(&cond1);
+	return 0;
 }
 
 int main(int argc, char** argv) {
