@@ -45,38 +45,39 @@ int quicksort(UINT* A, int lo, int hi) {
 }
 
 void *first(void * fv){
-	int i,pivot,rc,lo,hi;
-	i = (int)fv;
+	int pivot,rc,lo,hi;
+	UINT i = (UINT)fv;
 	lo = 0;
 	hi = sizeof(A);
 	void *e_s;
 	printf("%d THREAD CREADO CON I: %d\n", i);
-	if (inicio >= fin) return NULL;
+	if (lo >= hi) return NULL;
 	else{
-		pivot = partition(A, inicio, fin);
-		if ((pivot - lo) <= sizeof(A)/6) || (i == 5)){
+		pivot = partition(A, lo, hi);
+		if (((pivot - lo) <= sizeof(A)/6) || (i == 5)){
 			quicksort(A, lo, pivot);
 		}
 		else if (i < 6){
 			++i;
-			if(rc = pthread_create(&pt[i], NULL, *first, (void *)i)){
+			if(rc == pthread_create(&pt[i], NULL, *first, (void *)i)){
 				printf("%d THREAD Failed \n", i);
 			}
-			pthread_(pt[i], &e_s);
+			pthread_join(pt[i], &e_s);
 			printf("&d THREAD EXITED \n", i);
 		}
-		if (((hi - pivot) <= sizeof(A)/6) || (i == 5){
+		if (((hi - pivot) <= sizeof(A)/6) || (i == 5)){
 			quicksort(A, pivot, hi);
 		}
 		else if (i < 6){
 			++i;
-			if(rc = pthread_create(&pt[i], NULL, *first, (void *)i)){
+			if(rc == pthread_create(&pt[i], NULL, *first, (void *)i)){
 				printf("%d THREAD Failed \n", i);
 			}
-			pthread_(pt[i], &e_s);
+			pthread_join(pt[i], &e_s);
 			printf("&d THREAD EXITED \n", i);
 		}
-	} 
+	}
+return NULL; 
 }
 
 // TODO: implement
