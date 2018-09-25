@@ -193,18 +193,9 @@ int main(int argc, char** argv) {
             else printf("%u,", *pv);
         }
 
-        quicksort(readbuf,0,numvalues-1);
-        
-        printf("\nS%d:",i+1);
-        for (UINT *pv = readbuf; pv < readbuf + numvalues; pv++) {
-            if (pv==readbuf+numvalues-1) printf("%u.\n",*pv);
-            else printf("%u,", *pv);
-        }
-        printf("\n");
-
         //free(readbuf);
 
-	parallel_quicksort(readbuf,0,numvalues-1);
+	    parallel_quicksort(readbuf,0,numvalues-1);
         
         printf("\nS%d:",i+1);
         for (UINT *pv = readbuf; pv < readbuf + numvalues; pv++) {
