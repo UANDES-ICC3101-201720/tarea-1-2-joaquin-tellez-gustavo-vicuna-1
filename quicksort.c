@@ -113,7 +113,6 @@ int main(int argc, char** argv) {
 		}
 	for (index = optind; index < argc; index++)
 		printf ("Non-option argument %s\n", argv[index]);
-    printf("\n[quicksort] E:%i , %s\n",Evalue,Tvalue);
 
     /* TODO: start datagen here as a child process. */
 
