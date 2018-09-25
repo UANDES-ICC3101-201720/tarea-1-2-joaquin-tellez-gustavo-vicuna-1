@@ -70,14 +70,27 @@ void parallel_quicksort(UINT* A, int lo, int hi) {
 		fi->depth = dep;
 		fi->lo = l;
 		fi->hi = h;
-		printf("\n\nhola\n\n");
 		memcpy(fi->Z, A, (h)*sizeof(UINT*));*/
-		struct final fi = {A, lo, hi};
-		printf("\n\nhola\n\n");
+		struct final fi = {A, lo, hi};;
 		pthread_t first_thread;
 		pthread_create(&first_thread, NULL, first, &fi);
 		//parallel_quicksort(A, pivot+1, h);
 		pthread_join(first_thread, NULL);
+        pthread_t second_thread;
+		pthread_create(&second_thread, NULL, first, &fi);
+		pthread_join(second_thread, NULL);
+        pthread_t third_thread;
+		pthread_create(&third_thread, NULL, first, &fi);
+		pthread_join(third_thread, NULL);
+        pthread_t forth_thread;
+		pthread_create(&forth_thread, NULL, first, &fi);
+		pthread_join(forth_thread, NULL);
+        pthread_t fifth_thread;
+		pthread_create(&fifth_thread, NULL, first, &fi);
+		pthread_join(fifth_thread, NULL);
+        pthread_t sixth_thread;
+		pthread_create(&sixth_thread, NULL, first, &fi);
+		pthread_join(sixth_thread, NULL);
 	}
 	else{
 		quicksort(A, lo, pivot-1);
